@@ -13,18 +13,20 @@ from adams_che696_proj import main
 
 
 class TestQuote(unittest.TestCase):
-    def testNoArgs(self):
-        test_input = []
-        main(test_input)
+    def testHelp(self):
+        test_input = ['-h']
+        # with capture_stderr(main, test_input) as output:
+        #     self.assertFalse(output)
         with capture_stdout(main, test_input) as output:
-            self.assertTrue("Henry David Thoreau" in output)
+            self.assertTrue("optional arguments" in output)
 
 
-    def testNoAttribution(self):
-        test_input = ["-n"]
+class TestMain(unittest.TestCase):
+    def testSubmitVMD(self):
+        test_input = ["vmd -e sample.tcl"]
         main(test_input)
         with capture_stdout(main, test_input) as output:
-            self.assertFalse("Henry David Thoreau" in output)
+            self.assertTrue("vmd -e sample.tcl" in output)
 
 
 # Utility functions
@@ -39,3 +41,13 @@ def capture_stdout(command, *args, **kwargs):
     sys.stdout.seek(0)
     yield sys.stdout.read()
     sys.stdout = out
+
+
+def capture_stderr(command, *args, **kwargs):
+    # pycharm doesn't know six very well, so ignore the false warning
+    # noinspection PyCallingNonCallable
+    err, sys.stderr = sys.stderr, six.StringIO()
+    command(*args, **kwargs)
+    sys.stderr.seek(0)
+    yield sys.stderr.read()
+    sys.stderr = err

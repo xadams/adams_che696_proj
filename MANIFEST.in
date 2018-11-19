@@ -1,0 +1,2 @@
+include adams_che_696_proj/data/template.pbs
+include adams_che_696_proj/data/template.job
