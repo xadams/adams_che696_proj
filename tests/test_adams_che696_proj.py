@@ -8,6 +8,8 @@ import sys
 import unittest
 from contextlib import contextmanager
 from io import StringIO
+import filecmp
+import os
 
 from adams_che696_proj import main
 
@@ -24,10 +26,12 @@ class TestQuote(unittest.TestCase):
 class TestMain(unittest.TestCase):
     def testSubmitVMD(self):
         test_input = ["vmd -e sample.tcl"]
-        main(test_input)
-        with capture_stdout(main, test_input) as output:
-            self.assertTrue("vmd -e sample.tcl" in output)
-
+        try:
+            with capture_stdout(main, test_input) as output:
+                self.assertTrue("qsub" in output)
+            self.assertTrue(filecmp.cmp("good_quick-job.pbs","quick-job.pbs"))
+        finally:
+            os.remove("quick-job.pbs")
 
 # Utility functions
 
