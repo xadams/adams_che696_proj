@@ -65,3 +65,6 @@ def capture_stderr(command, *args, **kwargs):
     sys.stderr.seek(0)
     yield sys.stderr.read()
     sys.stderr = err
+
+if __name__ == '__main__':
+    unittest.main()
