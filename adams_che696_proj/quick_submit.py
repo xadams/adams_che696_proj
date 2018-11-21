@@ -32,11 +32,6 @@ MEM = 'mem'
 JOB_NAME = 'job_name'
 
 
-def warning(*objs):
-    """Writes a message to stderr."""
-    print("WARNING: ", *objs, file=sys.stderr)
-
-
 def proc_args(keys):
     tpl_vals = {}
 
@@ -98,14 +93,7 @@ def parse_cmdline(argv):
     parser.add_argument("-d", "--debug", help="Flag to generate but not submit the script.",
                         default=False, action='store_true')
 
-    args = None
-    try:
-        args = parser.parse_args(argv)
-    except IOError as e:
-        warning("Problems reading file:", e)
-        parser.print_help()
-        return args, 2
-
+    args = parser.parse_args(argv)
     return args, 0
 
 

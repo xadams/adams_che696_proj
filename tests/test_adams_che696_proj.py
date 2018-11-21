@@ -15,21 +15,24 @@ from adams_che696_proj import main
 
 
 class TestMainFailWell(unittest.TestCase):
-#     def testHelp(self):
-#         test_input = ['-h']
-#         # with capture_stderr(main, test_input) as output:
-#         #     self.assertFalse(output)
-#         with capture_stdout(main, test_input) as output:
-#             self.assertTrue("optional arguments:" in output)
+    def testHelp(self):
+        test_input = ['-h']
+        # with capture_stderr(main, test_input) as output:
+        #     self.assertFalse(output)
+        with capture_stdout(main, test_input) as output:
+            self.assertTrue("optional arguments:" in output)
 #         # main(test_input)
-    def testInvalidScheduler(self):
-        test_input = "vmd -e sample.tcl",
+
+    ## Same issue as above
+    # def testInvalidScheduler(self):
+    #     test_input = ["vmd -e sample.tcl", "-s", "torque"]
+    #     with capture_stderr(main, test_input) as output:
+    #         self.assertTrue("invalid choice:" in output)
 
 class TestMain(unittest.TestCase):
     def testSubmitPBS(self):
         test_input = ["vmd -e sample.tcl", "-j", "tests/quick-job", "-d"]
         try:
-            main(test_input)
             with capture_stdout(main, test_input) as output:
                 self.assertTrue("qsub" in output)
             self.assertTrue(filecmp.cmp("tests/good_quick-job.pbs", "tests/quick-job.pbs"))
