@@ -14,24 +14,33 @@ import os
 from adams_che696_proj import main
 
 
-class TestQuote(unittest.TestCase):
+class TestMainFailWell(unittest.TestCase):
     def testHelp(self):
         test_input = ['-h']
         # with capture_stderr(main, test_input) as output:
         #     self.assertFalse(output)
         with capture_stdout(main, test_input) as output:
-            self.assertTrue("optional arguments" in output)
-
+            self.assertTrue("optional arguments:" in output)
+        # main(test_input)
 
 class TestMain(unittest.TestCase):
-    def testSubmitVMD(self):
-        test_input = ["vmd -e sample.tcl", "-p", "adams_che696_proj/data/", "-j", "tests/quick-job"]
+    def testSubmitPBS(self):
+        test_input = ["vmd -e sample.tcl", "-j", "tests/quick-job"]
         try:
             with capture_stdout(main, test_input) as output:
                 self.assertTrue("qsub" in output)
             self.assertTrue(filecmp.cmp("tests/good_quick-job.pbs", "tests/quick-job.pbs"))
         finally:
             os.remove("tests/quick-job.pbs")
+
+    def testSubmitSlurm(self):
+        test_input = ["vmd -e sample.tcl", "-j", "tests/quick-job", "-s", "slurm"]
+        try:
+            with capture_stdout(main, test_input) as output:
+                self.assertTrue("sbatch" in output)
+            self.assertTrue(filecmp.cmp("tests/good_quick-job.job", "tests/quick-job.job"))
+        finally:
+            os.remove("tests/quick-job.job")
 
 
 # Utility functions

@@ -95,6 +95,7 @@ def parse_cmdline(argv):
     parser.add_argument("-w", "--walltime", help="Time in hours for the submitted job. "
                                                  "Default is {} (hr).".format(DEF_TIME), type=int, default=DEF_TIME)
     parser.add_argument("-p", "--path", help="Path to template file", default=DEF_PATH)
+
     args = None
     try:
         args = parser.parse_args(argv)
