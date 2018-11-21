@@ -95,6 +95,8 @@ def parse_cmdline(argv):
     parser.add_argument("-w", "--walltime", help="Time in hours for the submitted job. "
                                                  "Default is {} (hr).".format(DEF_TIME), type=int, default=DEF_TIME)
     parser.add_argument("-p", "--path", help="Path to template file", default=DEF_PATH)
+    parser.add_argument("-d", "--debug", help="Flag to generate but not submit the script.",
+                        default=False, action='store_true')
 
     args = None
     try:
@@ -114,12 +116,12 @@ def main(argv=None):
     tpl_vals = proc_args(args)
     submit_name = make_jobfile(args, tpl_vals)
     if args.scheduler == "pbs":
-        if which('qsub'):
+        if which('qsub') and not args.debug:
             subprocess.call(['qsub', submit_name])
         else:
             print("qsub {}".format(submit_name))
     elif args.scheduler == "slurm":
-        if which('sbatch'):
+        if which('sbatch') and not args.debug:
             subprocess.call(['sbatch', submit_name])
         else:
             print("sbatch {}".format(submit_name))
