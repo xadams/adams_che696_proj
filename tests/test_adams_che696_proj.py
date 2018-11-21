@@ -25,13 +25,14 @@ class TestQuote(unittest.TestCase):
 
 class TestMain(unittest.TestCase):
     def testSubmitVMD(self):
-        test_input = ["vmd -e sample.tcl"]
+        test_input = ["vmd -e sample.tcl", "-p", "adams_che696_proj/data/", "-j", "tests/quick-job"]
         try:
             with capture_stdout(main, test_input) as output:
                 self.assertTrue("qsub" in output)
-            self.assertTrue(filecmp.cmp("good_quick-job.pbs","quick-job.pbs"))
+            self.assertTrue(filecmp.cmp("tests/good_quick-job.pbs", "tests/quick-job.pbs"))
         finally:
-            os.remove("quick-job.pbs")
+            os.remove("tests/quick-job.pbs")
+
 
 # Utility functions
 

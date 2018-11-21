@@ -21,7 +21,7 @@ setup(
     # Optional include package data to ship with your package
     # Comment out this line to prevent the files from being packaged with your software
     # Extend/modify the list to include/exclude other items as need be
-    package_data={'adams_che696_proj': ["data/*.dat"]
+    package_data={'adams_che696_proj': ["data/template*"]
                   },
 
     entry_points={'console_scripts': ['quick_submit = adams_che696_proj.quick_submit:main',

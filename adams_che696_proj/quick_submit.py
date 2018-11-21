@@ -13,6 +13,7 @@ import argparse
 import subprocess
 import re
 from shutil import which
+import os
 
 TYPES = ["pbs", "slurm"]
 
@@ -22,7 +23,7 @@ DEF_PROCS = 1
 DEF_MEM = 4
 DEF_NAME = "quick-job"
 DEF_TIME = 1
-DEF_PATH = "/Users/xadams/PycharmProjects/adams_che696_proj/adams_che696_proj/data/"
+DEF_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__))) + '/data/')
 
 ## Dictionary Keywords
 WALLTIME = 'walltime'
